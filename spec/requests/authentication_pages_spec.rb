@@ -77,15 +77,6 @@ describe "Authentication" do
 					it { should have_title('Sign in') }
 				end
 
-				describe ": as non-admin" do
-					let(:user) { FactoryGirl.create(:user) }
-					let(:non_admin) { FactoryGirl.create(:user) }
-					before { sign_in non_admin, no_capybara: true }
-					describe ": try to delete user"
-						before { delete user_path(user) }
-						specify { expect(response).to redirect_to(root_url) }
-				end
-
 			end
 
 			describe ": wrong user" do
@@ -103,6 +94,18 @@ describe "Authentication" do
 					specify { expect(response).to redirect_to(signin_path) }
 				end
 			end
+
+
+			describe ": as non-admin" do
+				let(:user) { FactoryGirl.create(:user) }
+				let(:non_admin) { FactoryGirl.create(:user) }
+				before { sign_in non_admin, no_capybara: true }
+				describe ": try to delete user"
+					before { delete user_path(user) }
+					specify { expect(response).to redirect_to(root_url) }
+			end
+
+			
 		end
 	end
 end
