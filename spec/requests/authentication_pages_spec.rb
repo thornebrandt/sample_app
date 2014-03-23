@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe "Auth" do
+describe "Authentication" do
 	subject { page }
 	describe ": signin" do
 		before { visit signin_path }
@@ -21,14 +21,17 @@ describe "Auth" do
 
 		describe ": valid" do
 			let(:user) { FactoryGirl.create(:user) }
-			# before do
-			# 	fill_in "Email",	with: user.email.upcase
-			# 	fill_in "Password",	with: user.password
-			# 	click_button "Sign in"
-			# end
+			
+			before do
+				fill_in "Email",	with: user.email.upcase
+				fill_in "Password",	with: user.password
+				click_button "Sign in"
+			end
+
 			before { sign_in user }
 
 			it { should have_title(user.name) }
+			it { should have_link('Users', 			href: users_path) }
 			it { should have_link('Profile', 		href: user_path(user)) }
 			it { should have_link('Settings',		href: edit_user_path(user)) }
 			it { should have_link('Sign out',		href: signout_path) }
@@ -68,6 +71,21 @@ describe "Auth" do
 					before { patch user_path(user) }
 					specify { expect(response).to redirect_to(signin_path) }
 				end
+
+				describe ": visit users list" do
+					before { visit users_path }
+					it { should have_title('Sign in') }
+				end
+
+				describe ": as non-admin" do
+					let(:user) { FactoryGirl.create(:user) }
+					let(:non_admin) { FactoryGirl.create(:user) }
+					before { sign_in non_admin, no_capybara: true }
+					describe ": try to delete user"
+						before { delete user_path(user) }
+						specify { expect(response).to redirect_to(root_url) }
+				end
+
 			end
 
 			describe ": wrong user" do

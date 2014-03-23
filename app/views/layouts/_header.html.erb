@@ -2,14 +2,12 @@
   <div class="navbar-inner">
     <div class="container">
       <%= link_to "sample app", root_path, id: "logo" %>
-      <% if signed_in? %>
-        <span class='greetings'>You are logged in as <%= current_user[:name] %></span>
-      <% end %>
       <nav>
         <ul class="nav pull-right">
           <li><%= link_to "Home",    root_path %></li>
           <li><%= link_to "Help",    help_path %></li>
           <% if signed_in? %>
+            <li><%= link_to "Users", users_path %></li>
             <li id="fat-menu" class="dropdown">
               <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                 Account <b class="caret"></b>
