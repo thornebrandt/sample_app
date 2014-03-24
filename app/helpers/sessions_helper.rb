@@ -1,7 +1,6 @@
 module SessionsHelper
 
 	def sign_in(user)
-		puts "sessions helper sign in"
 		remember_token = User.new_remember_token
 		cookies.permanent[:remember_token] = remember_token
 		user.update_attribute(:remember_token, User.hash(remember_token))
@@ -20,7 +19,6 @@ module SessionsHelper
 
 	def current_user
 		remember_token = User.encrypt(cookies[:remember_token])
-		puts "in current user: " + remember_token + "\n"
 		@current_user ||= User.find_by(remember_token: remember_token)
 	end
 

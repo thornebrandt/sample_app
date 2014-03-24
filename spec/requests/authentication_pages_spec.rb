@@ -85,9 +85,7 @@ describe "Authentication" do
 			let!(:wrong_user) { FactoryGirl.create(:user, email: "wrong@bong.com") }
 			before { sign_in user, no_capybara: true }
 			describe "submitting a GET request to the Users#edit action" do
-				before do
-					get edit_user_path(wrong_user)
-				end 
+				before { get edit_user_path(wrong_user) }
 				specify { expect(response.body).not_to match(full_title('Edit user')) }
 				specify { expect(response).to redirect_to(root_url) }
 			end

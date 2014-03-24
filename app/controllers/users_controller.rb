@@ -56,7 +56,6 @@ class UsersController < ApplicationController
 
     def signed_in_user
       unless signed_in?
-        puts " uh........   not signed in \n"
         store_location
         redirect_to signin_url, notice: "Please sign in."
       end
