@@ -56,6 +56,7 @@ describe "User pages" do
 
 	describe "profile page" do
 		let(:user) { FactoryGirl.create(:user) }
+		before { 31.times { FactoryGirl.create(:micropost, user: user, content: "Hey buddy") } }
 		let!(:m1) { FactoryGirl.create(:micropost, user: user, content: "Foo") }
 		let!(:m2) { FactoryGirl.create(:micropost, user: user, content: "Bar") }
 
@@ -68,7 +69,10 @@ describe "User pages" do
 			it { should have_content(m1.content) }
 			it { should have_content(m2.content) }
 			it { should have_content(user.microposts.count) }
-		end	
+			it { should have_selector('div.pagination') }
+			it { should_not have_link('delete', href: micropost_path(m1)) }
+		end
+
 
 	end
 
