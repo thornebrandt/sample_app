@@ -195,9 +195,16 @@ describe User do
 
 		describe " and unfollowing" do
 			before { @user.unfollow!(other_user) }
-
 			it { should_not be_following(other_user) }
 			its(:followed_users) { should_not include(other_user) }
+		end
+
+		it ": delete should also destroy relationships" do
+			relationships = @user.relationships.to_a
+			@user.destroy
+			expect(relationships).not_to be_empty
+			expect(@user.relationships).to be_empty
+			expect(other_user.reverse_relationships).to be_empty
 		end
 	end
 end
