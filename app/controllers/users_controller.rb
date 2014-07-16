@@ -41,9 +41,9 @@ class UsersController < ApplicationController
 	  	else
 	  		render 'new'
 	  	end
-	  else
-	  	redirect_to current_user
-	  end
+	   else
+	  	    redirect_to current_user
+	   end
   end
 
   def edit
